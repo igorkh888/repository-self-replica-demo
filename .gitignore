@@ -22,6 +22,9 @@ target/
 #Maven
 .mvn/
 
+#mac
+.DS_Store
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
