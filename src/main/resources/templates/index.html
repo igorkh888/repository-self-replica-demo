@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Github Repo Replica</title>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,700" rel="stylesheet" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous" />
+        <link rel="stylesheet" th:href="@{~/css/style.css}" />
+    </head>
+
+    <body>
+        <div class="page-wrap">
+            <div class="top-bar bottom-shadow">
+                <div class="content-980">
+                    <table cellspacing="0" cellpadding="0" class="top-bar-table">
+                        <tr>
+                            <td class="top-bar-cell-left">
+                                <span class="app-title">Github Repo Replica Demo</span>
+                            </td>
+                            <td class="top-bar-cell-right">
+                                <span th:if="${user.isAuthorized()}">
+                                    <form method="GET" th:action="${T(com.igorkhromov.controller.AuthenticationController).LOGOUT_URI}">
+                                        <button class="btn btn-primary btn-logout" type="submit">Logout</button>
+                                    </form>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="page-content">
+
+                <div class="repo-link">
+                    <a th:href="${repo.githubURL}" th:text="${repo.githubURL}"></a>
+                </div>
+
+                <div th:if="${!user.isAuthorized()}">
+                    <div class="notify-text">
+                        To make replica of this app repository to your own Github account,
+                        <br>please Sign in!
+                    </div>
+
+                    <div class="btn-wrap">
+                        <a th:href="${github.oauthURL}">
+                            <button class="btn btn-dark" type="submit">
+                                <img th:src="@{~/img/octocat@2x.png}" class="btn-img" width="28" height="28" />
+                                <span class="btn-composite-title">Sign in with Github</span>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+
+                <div th:if="${user.isAuthorized()}">
+                    <div th:if="${!repo.isExists()}">
+                        <div class="btn-wrap">
+                            <a th:href="${repo.forkURI}">
+                                <button class="btn btn-success">
+                                    <span class="btn-title">Replicate repository</span>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div th:if="${repo.isExists()}">
+                        <div class="notify-text notify-text-success">
+                            Congratulations, now you have replica of this wonderful app!
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer class="site-footer top-shadow">
+            <div class="copyright text-center">
+                <a th:href="${'mailto:'+@environment.getProperty('author.email')}"
+                    th:text="${@environment.getProperty('author.name')}"></a>
+                @ 2019 All right reserved.
+            </div>
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script th:src="@{~/js/script.js}"></script>
+    </body>
+
+</html>
